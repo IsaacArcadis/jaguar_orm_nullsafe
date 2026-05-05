@@ -1,46 +1,113 @@
-import 'package:source_gen/source_gen.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/element.dart';
+import 'package:analyzer/dart/constant/value.dart';
 
-final isGenBean = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#GenBean');
+// Custom TypeChecker that works with analyzer 10.0.1+
+class CustomTypeChecker {
+  final String elementName;
+  final String? packageName;
+  
+  const CustomTypeChecker(this.elementName, [this.packageName]);
+  
+  bool isExactlyType(DartType? type) {
+    if (type == null) return false;
+    final element = type.element;
+    if (element == null) return false;
+    // For simplicity, just match by element name
+    // The package check is too fragile with different analyzer versions
+    return element.name == elementName;
+  }
+  
+  bool isExactly(Element? element) {
+    if (element == null) return false;
+    return element.name == elementName;
+  }
+  
+  bool isSuperTypeOf(DartType? type) {
+    if (type == null) return false;
+    if (isExactlyType(type)) return true;
+    
+    final element = type.element;
+    if (element is! InterfaceElement) return false;
+    
+    for (final supertype in element.allSupertypes) {
+      if (isExactlyType(supertype)) return true;
+    }
+    return false;
+  }
+  
+  // Alias for isSuperTypeOf to match TypeChecker API
+  bool isAssignableFromType(DartType? type) {
+    return isSuperTypeOf(type);
+  }
+  
+  bool hasAnnotation(Element element, {bool throwOnUnresolved = true}) {
+    return firstAnnotationOf(element, throwOnUnresolved: throwOnUnresolved) != null;
+  }
+  
+  DartObject? firstAnnotationOf(Element element, {bool throwOnUnresolved = true}) {
+    if (element is! ClassElement && element is! PropertyAccessorElement && element is! FieldElement) {
+      return null;
+    }
+    
+    final metadata = element.metadata;
+    for (final annotation in metadata.annotations) {
+      final value = annotation.computeConstantValue();
+      if (value == null) continue;
+      final type = value.type;
+      // Use isSuperTypeOf to match subtypes (e.g., HasMany implements Relation)
+      if (type != null && isSuperTypeOf(type)) {
+        return value;
+      }
+    }
+    return null;
+  }
+  
+  DartObject? firstAnnotationOfExact(Element element, {bool throwOnUnresolved = true}) {
+    return firstAnnotationOf(element, throwOnUnresolved: throwOnUnresolved);
+  }
+}
 
-final isBean = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#Bean');
+const isGenBean = CustomTypeChecker('GenBean', 'jaguar_orm');
 
-final isIgnore = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#IgnoreColumn');
+const isBean = CustomTypeChecker('Bean', 'jaguar_orm');
 
-final isColumnBase = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#ColumnBase');
+const isIgnore = CustomTypeChecker('IgnoreColumn', 'jaguar_orm');
 
-final isColumn = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#Column');
+const isColumnBase = CustomTypeChecker('ColumnBase', 'jaguar_orm');
 
-final isPrimaryKey = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#PrimaryKey');
+const isColumn = CustomTypeChecker('Column', 'jaguar_orm');
 
-final isForeignKey = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#ForeignKey');
+const isPrimaryKey = CustomTypeChecker('PrimaryKey', 'jaguar_orm');
 
-final isBelongsTo = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#BelongsTo');
+const isForeignKey = CustomTypeChecker('ForeignKey', 'jaguar_orm');
 
-final isRelation = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#Relation');
+const isBelongsTo = CustomTypeChecker('BelongsTo', 'jaguar_orm');
 
-final isHasOne = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#HasOne');
+const isRelation = CustomTypeChecker('Relation', 'jaguar_orm');
 
-final isHasMany = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#HasMany');
+const isHasOne = CustomTypeChecker('HasOne', 'jaguar_orm');
 
-final isManyToMany = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#ManyToMany');
+const isHasMany = CustomTypeChecker('HasMany', 'jaguar_orm');
 
-final isList = const TypeChecker.fromUrl('dart:core#List');
+const isManyToMany = CustomTypeChecker('ManyToMany', 'jaguar_orm');
 
-final isMap = const TypeChecker.fromUrl('dart:core#Map');
+// Dart core types
+const isList = CustomTypeChecker('List', 'dart.core');
 
-final isString = const TypeChecker.fromUrl('dart:core#String');
+const isMap = CustomTypeChecker('Map', 'dart.core');
 
-final isInt = const TypeChecker.fromUrl('dart:core#int');
+const isString = CustomTypeChecker('String', 'dart.core');
 
-final isDouble = const TypeChecker.fromUrl('dart:core#double');
+const isInt = CustomTypeChecker('int', 'dart.core');
 
-final isNum = const TypeChecker.fromUrl('dart:core#num');
+const isDouble = CustomTypeChecker('double', 'dart.core');
 
-final isDateTime = const TypeChecker.fromUrl('dart:core#DateTime');
+const isNum = CustomTypeChecker('num', 'dart.core');
 
-final isBool = const TypeChecker.fromUrl('dart:core#bool');
+const isDateTime = CustomTypeChecker('DateTime', 'dart.core');
+
+const isBool = CustomTypeChecker('bool', 'dart.core');
 
 bool isBuiltin(DartType type) {
   if (isString.isExactlyType(type)) return true;

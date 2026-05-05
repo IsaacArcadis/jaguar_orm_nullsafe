@@ -239,22 +239,33 @@ class ParsedBean {
 
   /// Parses and populates [model] and [reader]
   void _getModel() {
-    if (!isBean.isAssignableFromType(clazz.thisType)) {
+    // Find the Bean supertype using custom type checker
+    InterfaceType? beanInterface;
+    for (final supertype in clazz.allSupertypes) {
+      if (supertype is InterfaceType && isBean.isExactlyType(supertype)) {
+        beanInterface = supertype;
+        break;
+      }
+    }
+    
+    if (beanInterface == null) {
       throw Exception("Beans must implement Bean interface!");
     }
 
+    // Find GenBean annotation using custom type checker
     final ElementAnnotation? meta = clazz.metadata.annotations
-        .where((m) => isGenBean.isExactlyType(m.computeConstantValue()!.type!))
+        .where((m) {
+          final value = m.computeConstantValue();
+          if (value == null) return false;
+          final type = value.type;
+          return type != null && isGenBean.isExactlyType(type);
+        })
         .firstOrNull;
     if (meta == null)
       throw Exception("Cannot find or parse `GenBean` annotation!");
     reader = ConstantReader(meta.computeConstantValue());
 
-    final InterfaceType interface = clazz.allSupertypes.firstWhere(
-      (InterfaceType i) => isBean.isExactlyType(i),
-    );
-
-    model = interface.typeArguments.first;
+    model = beanInterface.typeArguments.first;
 
     if (model is DynamicType) {
       throw Exception("Don't support Model of type dynamic!");
