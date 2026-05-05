@@ -9,14 +9,14 @@ homepage: https://github.com/Jaguar-dart/jaguar_orm
 # documentation:
 
 environment:
-  sdk: ">=2.18.4 <3.0.0"
+  sdk: ^3.11.5
 
 flutter:
 
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^2.0.2
+  sqflite: ^2.4.2+1
   jaguar_query: # ^2.2.9
     git:
       url: https://github.com/IsaacArcadis/jaguar_orm_nullsafe.git
