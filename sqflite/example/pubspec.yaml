@@ -9,7 +9,7 @@ homepage: https://github.com/Jaguar-dart/jaguar_orm
 documentation:
 
 environment:
-  sdk: '>=2.0.0-dev.65.0 <3.0.0'
+  sdk: ^3.11.5
 
 flutter:
 
