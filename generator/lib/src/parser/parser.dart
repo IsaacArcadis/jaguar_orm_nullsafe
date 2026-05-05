@@ -242,7 +242,7 @@ class ParsedBean {
     // Find the Bean supertype using custom type checker
     InterfaceType? beanInterface;
     for (final supertype in clazz.allSupertypes) {
-      if (supertype is InterfaceType && isBean.isExactlyType(supertype)) {
+      if (isBean.isExactlyType(supertype)) {
         beanInterface = supertype;
         break;
       }
