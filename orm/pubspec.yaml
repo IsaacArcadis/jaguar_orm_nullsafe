@@ -6,7 +6,7 @@ homepage: https://github.com/Jaguar-dart/jaguar_orm
 # documentation:
 
 environment:
-  sdk: ^3.11.5
+  sdk: ">=2.18.4 <3.0.0"
 
 dependencies:
   jaguar_query: # ^2.2.9
@@ -15,7 +15,7 @@ dependencies:
       path: query
   quiver: ^3.2.2
   path: ^1.9.1
-  meta: ^1.18.2
+  meta: ^1.17.0
 
 dev_dependencies:
   test: ^1.31.1
