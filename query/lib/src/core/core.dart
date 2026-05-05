@@ -3,7 +3,6 @@
 
 library query;
 
-import 'dart:async';
 import 'dart:collection';
 import 'dart:core';
 import 'dart:core' as core;

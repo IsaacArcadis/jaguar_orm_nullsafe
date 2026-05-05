@@ -28,8 +28,6 @@ class Find implements Statement, Whereable {
 
   /// Adds a 'join' clause to the select statement
   Find addJoin(JoinedTable join) {
-    if (join == null) throw Exception('Join cannot be null!');
-
     _curJoin = join;
     _joins.add(_curJoin);
     return this;
@@ -72,8 +70,6 @@ class Find implements Statement, Whereable {
 
   /// Adds the condition with which to perform joins.
   Find joinOn(Expression exp) {
-    if (_curJoin == null) throw Exception('No joins in the join stack!');
-
     _curJoin.joinOn(exp);
     return this;
   }
@@ -130,7 +126,7 @@ class Find implements Statement, Whereable {
   Find orMap<T>(Iterable<T> iterable, MappedExpression<T> func) {
     iterable.forEach((T v) {
       final Expression exp = func(v);
-      if (exp != null) _where = _where.or(exp);
+      _where = _where.or(exp);
     });
     return this;
   }
@@ -138,7 +134,7 @@ class Find implements Statement, Whereable {
   Find andMap<T>(Iterable<T> iterable, MappedExpression<T> func) {
     iterable.forEach((T v) {
       final Expression exp = func(v);
-      if (exp != null) _where = _where.and(exp);
+      _where = _where.and(exp);
     });
     return this;
   }

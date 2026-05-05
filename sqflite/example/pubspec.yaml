@@ -6,7 +6,6 @@ authors:
 - Kevin Segaud <segaud.kevin@gmail.com>
 - Aumard Jimmy <jimmy.aumard@gmail.com>
 homepage: https://github.com/Jaguar-dart/jaguar_orm
-documentation:
 
 environment:
   sdk: ^3.11.5

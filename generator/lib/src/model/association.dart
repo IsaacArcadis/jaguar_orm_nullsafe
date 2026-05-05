@@ -34,9 +34,9 @@ class BelongsToAssociation implements BeanedAssociation {
       this.bean, this.fields, this.foreignFields, this.other, this.byHasMany)
       : model = getModelForBean(bean);
 
-  String get beanName => bean.getDisplayString(withNullability: false);
+  String get beanName => bean.getDisplayString();
 
-  String get modelName => model.getDisplayString(withNullability: false);
+  String get modelName => model.getDisplayString();
 
   String get beanInstanceName => uncap(modelName) + 'Bean';
 }
@@ -59,7 +59,7 @@ class BeanedForeignAssociation extends ForeignAssociation
       this.bean, this.fields, this.foreignFields, this.byHasMany)
       : model = getModelForBean(bean);
 
-  String get modelName => model.getDisplayString(withNullability: false);
+  String get modelName => model.getDisplayString();
 }
 
 class TabledForeignAssociation extends ForeignAssociation {

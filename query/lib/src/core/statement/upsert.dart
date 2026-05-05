@@ -19,6 +19,8 @@ class Upsert implements Statement {
     _immutable = ImmutableUpsertStatement(this);
   }
 
+  String? get idColumn => _id;
+
   /// Id is the auto-generated primary key that is set by the database. [Adapter]
   /// will request the database to return this column on inserts.
   Upsert id(String id) {

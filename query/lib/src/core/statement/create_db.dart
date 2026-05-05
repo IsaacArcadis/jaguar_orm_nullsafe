@@ -15,6 +15,8 @@ class DropDb implements Statement {
 
   DropDb(this.name);
 
+  bool get onlyIfExistsFlag => _onlyIfExists;
+
   DropDb onlyIfExists() {
     _onlyIfExists = true;
     return this;

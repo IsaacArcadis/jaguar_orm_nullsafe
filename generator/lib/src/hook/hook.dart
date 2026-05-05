@@ -3,7 +3,7 @@ library jaguar_orm.generator.hook;
 import 'dart:async';
 
 import 'package:analyzer/dart/element/element.dart';
-import 'package:build/src/builder/build_step.dart';
+import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 
 import 'package:jaguar_orm/src/annotations/annotations.dart' as ant;
@@ -30,7 +30,7 @@ class BeanGenerator extends GeneratorForAnnotation<ant.GenBean> {
             "GenBean annotation can only be defined on a class.");
       }
 
-      final String className = element.name;
+      final String? className = element.name;
 
       print("Generating bean for $className ...");
 

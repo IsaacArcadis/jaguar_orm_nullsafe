@@ -1,9 +1,7 @@
 name: jaguar_orm_gen
 description: Generator for jaguar_orm
 version: 2.2.30
-authors:
-  - Ravi Teja Gudapati <tejainece@gmail.com>
-  - Kevin Segaud <segaud.kevin@gmail.com>
+publish_to: none
 homepage: https://github.com/Jaguar-dart/jaguar_orm
 # documentation:
 

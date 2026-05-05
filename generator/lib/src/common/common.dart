@@ -2,48 +2,45 @@ import 'package:source_gen/source_gen.dart';
 import 'package:analyzer/dart/element/type.dart';
 import 'package:analyzer/dart/element/element.dart';
 
-import 'package:jaguar_query/jaguar_query.dart';
-import 'package:jaguar_orm/jaguar_orm.dart';
+final isGenBean = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#GenBean');
 
-final isGenBean = new TypeChecker.fromRuntime(GenBean);
+final isBean = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#Bean');
 
-final isBean = new TypeChecker.fromRuntime(Bean);
+final isIgnore = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#IgnoreColumn');
 
-final isIgnore = new TypeChecker.fromRuntime(IgnoreColumn);
+final isColumnBase = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#ColumnBase');
 
-final isColumnBase = new TypeChecker.fromRuntime(ColumnBase);
+final isColumn = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#Column');
 
-final isColumn = new TypeChecker.fromRuntime(Column);
+final isPrimaryKey = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#PrimaryKey');
 
-final isPrimaryKey = new TypeChecker.fromRuntime(PrimaryKey);
+final isForeignKey = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#ForeignKey');
 
-final isForeignKey = new TypeChecker.fromRuntime(ForeignKey);
+final isBelongsTo = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#BelongsTo');
 
-final isBelongsTo = new TypeChecker.fromRuntime(BelongsTo);
+final isRelation = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#Relation');
 
-final isRelation = new TypeChecker.fromRuntime(Relation);
+final isHasOne = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#HasOne');
 
-final isHasOne = new TypeChecker.fromRuntime(HasOne);
+final isHasMany = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#HasMany');
 
-final isHasMany = new TypeChecker.fromRuntime(HasMany);
+final isManyToMany = const TypeChecker.fromUrl('package:jaguar_orm/jaguar_orm.dart#ManyToMany');
 
-final isManyToMany = new TypeChecker.fromRuntime(ManyToMany);
+final isList = const TypeChecker.fromUrl('dart:core#List');
 
-final isList = new TypeChecker.fromRuntime(List);
+final isMap = const TypeChecker.fromUrl('dart:core#Map');
 
-final isMap = new TypeChecker.fromRuntime(Map);
+final isString = const TypeChecker.fromUrl('dart:core#String');
 
-final isString = new TypeChecker.fromRuntime(String);
+final isInt = const TypeChecker.fromUrl('dart:core#int');
 
-final isInt = new TypeChecker.fromRuntime(int);
+final isDouble = const TypeChecker.fromUrl('dart:core#double');
 
-final isDouble = new TypeChecker.fromRuntime(double);
+final isNum = const TypeChecker.fromUrl('dart:core#num');
 
-final isNum = new TypeChecker.fromRuntime(num);
+final isDateTime = const TypeChecker.fromUrl('dart:core#DateTime');
 
-final isDateTime = new TypeChecker.fromRuntime(DateTime);
-
-final isBool = new TypeChecker.fromRuntime(bool);
+final isBool = const TypeChecker.fromUrl('dart:core#bool');
 
 bool isBuiltin(DartType type) {
   if (isString.isExactlyType(type)) return true;

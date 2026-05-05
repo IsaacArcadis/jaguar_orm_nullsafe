@@ -48,7 +48,7 @@ class Field {
 }
 
 class WriterModel {
-  final String name;
+  final String? name;
 
   final String modelType;
 
@@ -75,8 +75,8 @@ class WriterModel {
 
   Preload? findHasXByAssociation(DartType association) {
     return preloads.firstWhereOrNull((p) =>
-        p.bean.getDisplayString(withNullability: false) ==
-        association.getDisplayString(withNullability: false));
+        p.bean.getDisplayString() ==
+        association.getDisplayString());
 
     /*
     if (found == null) {
@@ -119,12 +119,12 @@ String getValType(String type) {
 abstract class Preload {
   DartType get bean;
 
-  String get beanName => bean.getDisplayString(withNullability: false);
+  String get beanName => bean.getDisplayString();
 
   String get beanInstanceName => uncap(modelName) + 'Bean';
 
   String get modelName =>
-      getModelForBean(bean).getDisplayString(withNullability: false);
+      getModelForBean(bean).getDisplayString();
 
   String get property;
 
@@ -157,12 +157,12 @@ class PreloadManyToMany extends Preload {
   final DartType targetBean;
 
   String get targetBeanName =>
-      targetBean.getDisplayString(withNullability: false);
+      targetBean.getDisplayString();
 
   String get targetBeanInstanceName => uncap(targetModelName) + 'Bean';
 
   String get targetModelName =>
-      getModelForBean(targetBean).getDisplayString(withNullability: false);
+      getModelForBean(targetBean).getDisplayString();
 
   final String property;
 
